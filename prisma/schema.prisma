@@ -9,3 +9,25 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+enum TicketBookingStatus {
+  ONGOING
+  FAILED
+  BOOKED
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  name      String  @db.VarChar(256)
+  email     String  @unique @db.VarChar(256)
+  password  String  @db.VarChar(256)
+}
+
+model UserTicketHistory {
+  user_id   Int
+  ticket_id Int
+  status    TicketBookingStatus
+  pdf_link  String?
+
+  @@unique([user_id, ticket_id])
+}
